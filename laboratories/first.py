@@ -29,7 +29,6 @@ class Interpolation:
         self.zz = self.interp_moving_average()
 
         self.plot()
-        self.plot(surf=True)
 
     def load_data(self, data_path, filename):
         try:
@@ -69,14 +68,17 @@ class Interpolation:
         mesh = np.meshgrid(x, y)
         return mesh if not pos else np.vstack(list(map(np.ravel, mesh)))
 
-    def plot(self, surf=False):
+    def plot(self):
         fig = plt.figure()
-        if surf:
-            ax = fig.add_subplot(111, projection='3d')
-            ax.plot_surface(self.grid[0], self.grid[1], self.zz)
-        else:
-            p = plt.imshow(self.zz)
-            plt.colorbar(p)
+        fig.suptitle('Interpolation')
+
+        # First subplot
+        ax = fig.add_subplot(1, 2, 1, projection='3d')
+        ax.plot_surface(self.grid[0], self.grid[1], self.zz)
+
+        ax = fig.add_subplot(1, 2, 2,)
+        p = plt.imshow(self.zz)
+        plt.colorbar(p)
         plt.show()
 
 
