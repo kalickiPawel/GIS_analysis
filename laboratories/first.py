@@ -37,17 +37,19 @@ class Interpolation:
         return df
 
     def interp_moving_average(self):
-        tree = KDTree(self.data[:, :2])
-        xx, yy = self.grid
-        zz = np.empty((xx.shape[0], xx.shape[1]))
-        for i in range(xx.shape[0]):
-            for j in range(xx.shape[1]):
-                ids = tree.query_radius([[xx[i, j], yy[i, j]]], r=self.window_size)
-                if len(ids[0]) == 0:
-                    zz[i, j] = np.nan
-                    continue
-                zz[i, j] = np.mean(self.data[ids[0], 2])
-        return zz
+        if self.is_circle:
+            tree = KDTree(self.data[:, :2])
+            xx, yy = self.grid
+            zz = np.empty((xx.shape[0], xx.shape[1]))
+            for i in range(xx.shape[0]):
+                for j in range(xx.shape[1]):
+                    ids = tree.query_radius([[xx[i, j], yy[i, j]]], r=self.window_size)
+                    zz[i, j] = np.nan if len(ids[0]) == 0 else np.mean(self.data[ids[0], 2])
+                print_progress_bar(round((i / xx.shape[0])*100))
+            print()
+            return zz
+        if self.is_square:
+            pass
 
     def interp_idw(self):
         pass
@@ -72,5 +74,9 @@ class Interpolation:
             plt.colorbar(p)
         plt.show()
 
-# TODO:
-    # 7. -> progress bar
+
+def print_progress_bar(iteration, total=100, prefix='Here', suffix='Now', decimals=0, length=50, fill='█', zfill='-'):
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filled_length = int(length * iteration // total)
+    pbar = fill * filled_length + zfill * (length - filled_length)
+    print('\r%s' % ('{0} |{1}| {2}% {3}'.format(prefix, pbar, percent, suffix)), end='')
