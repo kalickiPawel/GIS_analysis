@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+import sys
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KDTree
 
@@ -31,7 +32,11 @@ class Interpolation:
         self.plot(surf=True)
 
     def load_data(self, data_path, filename):
-        df = pd.read_csv(os.path.join(data_path, filename), sep=" ", header=None)
+        try:
+            df = pd.read_csv(os.path.join(data_path, filename), sep=" ", header=None)
+        except OSError:
+            print("Could not open/read file:", filename)
+            sys.exit()
         df = df.dropna(axis=1)
         df.columns = ["Lat", "Long", "depth"]
         return df
