@@ -15,10 +15,14 @@ class Interpolation:
         self.is_circle = None
         self.window_size = None
         self.num_min_points = None
+        self.window_type = None
 
-        valid_keys = ["spacing", "is_square", "is_circle", "window_size", "num_min_points"]
+        valid_keys = ["spacing", "window_type", "window_size", "num_min_points"]
         for key in valid_keys:
             setattr(self, key, kwargs.get(key))
+
+        self.is_circle = True if self.window_type else False
+        self.is_square = False if self.window_type else True
 
         self.grid = self.get_grid()
         self.zz = self.interp_moving_average()
