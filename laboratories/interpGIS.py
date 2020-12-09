@@ -110,11 +110,9 @@ def print_progress_bar(iteration, total=100, prefix='Here', suffix='Now', decima
 
 
 def save_to_csv(x, y, z, output):
-    print(output)
-    data = {'X': x.flatten(), 'Y': y.flatten(), 'Z': z.flatten()}
     if not os.path.exists(output[0]):
         os.makedirs(output[0])
-    df = pd.DataFrame(data)
+    df = pd.DataFrame({'X': x.flatten(), 'Y': y.flatten(), 'Z': z.flatten()})
     df.to_csv(os.path.join(*output), header=False, sep=' ', na_rep='NaN', index=False)
 
 
