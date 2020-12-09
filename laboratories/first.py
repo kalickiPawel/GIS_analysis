@@ -17,8 +17,9 @@ class Interpolation:
         self.window_size = None
         self.num_min_points = None
         self.window_type = None
+        self.output = (None, None)
 
-        valid_keys = ["spacing", "window_type", "window_size", "num_min_points"]
+        valid_keys = ["spacing", "window_type", "window_size", "num_min_points", "output"]
         for key in valid_keys:
             setattr(self, key, kwargs.get(key))
 
@@ -27,6 +28,7 @@ class Interpolation:
 
         self.grid = self.get_grid()
         self.zz = self.interp_moving_average()
+        save_to_csv(self.grid[0], self.grid[1], self.zz, output=self.output)
 
         self.plot()
 
@@ -87,3 +89,12 @@ def print_progress_bar(iteration, total=100, prefix='Here', suffix='Now', decima
     filled_length = int(length * iteration // total)
     pbar = fill * filled_length + zfill * (length - filled_length)
     print('\r%s' % ('{0} |{1}| {2}% {3}'.format(prefix, pbar, percent, suffix)), end='')
+
+
+def save_to_csv(x, y, z, output):
+    print(output)
+    data = {'X': x.flatten(), 'Y': y.flatten(), 'Z': z.flatten()}
+    if not os.path.exists(output[0]):
+        os.makedirs(output[0])
+    df = pd.DataFrame(data)
+    df.to_csv(os.path.join(*output), header=False, sep=' ', na_rep='NaN')
