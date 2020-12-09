@@ -32,3 +32,6 @@ if __name__ == '__main__':
         output=ipt_data['output'],
         save_format=ipt_data['save_format']
     )
+    # TODO: user input -> type of method the interpolation(ma, idw, kriging)
+    # TODO: user input -> if method is IDW -> set power value
+    # TODO: user input -> if method is Kriging -> set method of variogram

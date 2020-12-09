@@ -18,7 +18,11 @@
     - [ ] for window as square
     - [x] for window as circle
 - [ ] implementation of interpolation with IDW method
+    - [ ] for window as square
+    - [ ] for window as circle
 - [ ] implementation of interpolation with Kriging method
+    - [ ] for window as square
+    - [ ] for window as circle
 - [ ] calculate the size of grid -> !to_fix
 - [x] interpolation with one of method
 - [x] implementation of progress bar

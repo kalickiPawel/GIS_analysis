@@ -30,6 +30,7 @@ class Interpolation:
 
         self.grid = self.get_grid()
         print(f"Size of grid: ({len(self.grid[0])}, {len(self.grid[1])})")
+        # TODO: !to_fix probably size of grid is wrong
         self.zz = self.interp_moving_average()
 
         self.save()
