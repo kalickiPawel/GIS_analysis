@@ -6,8 +6,6 @@
 ## Interpolation
 ### TODOs
 
-Zapisz dane do pliku w formacie ASCII Grid XYZ (https://gdal.org/drivers/raster/xyz.html),tak aby móc je wczytać w QGIS (Warstwa / dodaj warstwę rastrową).Na kolejnych zajęciach każdy zaprezentuje działanie swojego programu. Kod programu (bez dodatków i bibliotek)przesyłamy na adres wmaleika@zut.edu.plnajpóźniej do czwartku przed zajęciami.
-
 - [x] loading of bathymetric data from ASCII file
 - [x] user input -> spacing of grid (horizontal and vertical distances between adjacent points on the grid)
 - [x] user input -> size of window
