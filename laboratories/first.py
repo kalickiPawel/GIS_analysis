@@ -7,10 +7,8 @@ from sklearn.neighbors import KDTree
 
 
 class Interpolation:
-    def __init__(self, data_path="./data", filename='wraki utm.txt', **kwargs):
-        self.df = self.load_data(data_path, filename)
-        self.data = self.df.to_numpy()
-
+    def __init__(self, **kwargs):
+        self.input = (None, None)
         self.spacing = None
         self.is_square = None
         self.is_circle = None
@@ -19,12 +17,15 @@ class Interpolation:
         self.window_type = None
         self.output = (None, None)
 
-        valid_keys = ["spacing", "window_type", "window_size", "num_min_points", "output"]
+        valid_keys = ["input", "spacing", "window_type", "window_size", "num_min_points", "output"]
         for key in valid_keys:
             setattr(self, key, kwargs.get(key))
 
         self.is_circle = True if self.window_type else False
         self.is_square = False if self.window_type else True
+
+        self.df = self.load_data()
+        self.data = self.df.to_numpy()
 
         self.grid = self.get_grid()
         self.zz = self.interp_moving_average()
@@ -32,11 +33,11 @@ class Interpolation:
 
         self.plot()
 
-    def load_data(self, data_path, filename):
+    def load_data(self):
         try:
-            df = pd.read_csv(os.path.join(data_path, filename), sep=" ", header=None)
+            df = pd.read_csv(os.path.join(*self.input), sep=" ", header=None)
         except OSError:
-            print("Could not open/read file:", filename)
+            print("Could not open/read file:", self.input[1])
             sys.exit()
         df = df.dropna(axis=1)
         df.columns = ["Lat", "Long", "depth"]
