@@ -8,7 +8,8 @@ if __name__ == '__main__':
         'window_type': 1,
         'window_size': 0.2,
         'num_min_points': 2,
-        'output': ['./output', 'out.csv']
+        'output': ['./output', 'out.csv'],
+        'save_format': 'csv'
     }
     print("Witaj w programie")
     for ipt in ipt_data:
@@ -28,5 +29,6 @@ if __name__ == '__main__':
         window_type=ipt_data['window_type'],  # -> 0: square, 1: circle
         window_size=ipt_data['window_size'],
         num_min_points=ipt_data['num_min_points'],
-        output=ipt_data['output']
+        output=ipt_data['output'],
+        save_format=ipt_data['save_format']
     )
