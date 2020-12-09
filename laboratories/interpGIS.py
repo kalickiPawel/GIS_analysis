@@ -29,6 +29,7 @@ class Interpolation:
         self.data = self.df.to_numpy()
 
         self.grid = self.get_grid()
+        print(f"Size of grid: ({len(self.grid[0])}, {len(self.grid[1])})")
         self.zz = self.interp_moving_average()
 
         self.save()
