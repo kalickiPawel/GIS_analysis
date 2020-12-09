@@ -16,8 +16,9 @@ class Interpolation:
         self.num_min_points = None
         self.window_type = None
         self.output = (None, None)
+        self.save_format = None
 
-        valid_keys = ["input", "spacing", "window_type", "window_size", "num_min_points", "output"]
+        valid_keys = ["input", "spacing", "window_type", "window_size", "num_min_points", "output", "save_format"]
         for key in valid_keys:
             setattr(self, key, kwargs.get(key))
 
@@ -29,8 +30,8 @@ class Interpolation:
 
         self.grid = self.get_grid()
         self.zz = self.interp_moving_average()
-        save_to_csv(self.grid[0], self.grid[1], self.zz, output=self.output)
 
+        self.save()
         self.plot()
 
     def load_data(self):
@@ -52,19 +53,27 @@ class Interpolation:
                 for j in range(xx.shape[1]):
                     ids = tree.query_radius([[xx[i, j], yy[i, j]]], r=self.window_size)
                     zz[i, j] = np.nan if len(ids[0]) == 0 else np.mean(self.data[ids[0], 2])
-                print_progress_bar(round((i / xx.shape[0])*100))
+                print_progress_bar(round((i / xx.shape[0]) * 100))
             print()
             return zz
         if self.is_square:
             pass
+            # TODO: implementing square search and arithmetic mean.
 
     def interp_idw(self):
+        # TODO: implementing Inverse distance weighted.
+        # TODO: with search as circle.
+        # TODO: with search as square.
         pass
 
     def interp_kriging(self):
+        # TODO: implementing Kriging
+        # TODO: with search as circle.
+        # TODO: with search as square.
         pass
 
     def get_grid(self, pos=False):
+        # TODO: Checking -> is grid correct?
         mins, maxes = self.df.min(), self.df.max()
         x = np.arange(mins['Lat'], maxes['Lat'], self.spacing)
         y = np.arange(mins['Long'], maxes['Long'], self.spacing)
@@ -72,6 +81,7 @@ class Interpolation:
         return mesh if not pos else np.vstack(list(map(np.ravel, mesh)))
 
     def plot(self):
+        # TODO: Adding color map for values of Z
         fig = plt.figure()
         fig.suptitle('Interpolation')
 
@@ -79,10 +89,17 @@ class Interpolation:
         ax = fig.add_subplot(1, 2, 1, projection='3d')
         ax.plot_surface(self.grid[0], self.grid[1], self.zz)
 
-        ax = fig.add_subplot(1, 2, 2,)
+        ax = fig.add_subplot(1, 2, 2, )
         p = plt.imshow(self.zz)
         plt.colorbar(p)
         plt.show()
+
+    def save(self):
+        if self.save_format == 'csv':
+            save_to_csv(self.grid[0], self.grid[1], self.zz, self.output)
+        if self.save_format == 'xyz':
+            save_to_xyz_grid_ascii(self.grid[0], self.grid[1], self.zz, output=self.output)
+        return 0
 
 
 def print_progress_bar(iteration, total=100, prefix='Here', suffix='Now', decimals=0, length=50, fill='█', zfill='-'):
@@ -98,4 +115,9 @@ def save_to_csv(x, y, z, output):
     if not os.path.exists(output[0]):
         os.makedirs(output[0])
     df = pd.DataFrame(data)
-    df.to_csv(os.path.join(*output), header=False, sep=' ', na_rep='NaN')
+    df.to_csv(os.path.join(*output), header=False, sep=' ', na_rep='NaN', index=False)
+
+
+def save_to_xyz_grid_ascii(x, y, z, output):
+    # TODO: Save to standard ASCII Gridded XYZ
+    pass

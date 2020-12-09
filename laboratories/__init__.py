@@ -1,1 +1,1 @@
-from laboratories.first import Interpolation
+from laboratories.interpGIS import Interpolation
