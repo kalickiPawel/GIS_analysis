@@ -21,7 +21,15 @@ if __name__ == '__main__':
             ipt_data[ipt][1] = input_tmp[1] if input_tmp[1] != '' else ipt_data[ipt][1]
         else:
             input_tmp = input(f'Read {ipt} (default: {ipt_data[ipt]}): ')
-            ipt_data[ipt] = input_tmp if input_tmp != '' else ipt_data[ipt]
+            if ipt in ['input', 'window_size']:
+                input_tmp = float(input_tmp) if input_tmp is not "" else str(input_tmp)
+            elif ipt is 'num_min_points':
+                input_tmp = int(input_tmp) if input_tmp is not "" else str(input_tmp)
+            elif ipt is 'window_type':
+                input_tmp = True if ipt == 1 else False
+            else:
+                input_tmp = str(input_tmp)
+            ipt_data[ipt] = input_tmp if input_tmp is not '' else ipt_data[ipt]
 
     first = Interpolation(
         input=ipt_data['input'],
@@ -32,6 +40,7 @@ if __name__ == '__main__':
         output=ipt_data['output'],
         save_format=ipt_data['save_format']
     )
+
     # TODO: user input -> type of method the interpolation(ma, idw, kriging)
     # TODO: user input -> if method is IDW -> set power value
     # TODO: user input -> if method is Kriging -> set method of variogram
