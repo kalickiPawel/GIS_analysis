@@ -22,9 +22,9 @@ if __name__ == '__main__':
         else:
             input_tmp = input(f'Read {ipt} (default: {ipt_data[ipt]}): ')
             if ipt in ['input', 'window_size']:
-                input_tmp = float(input_tmp) if input_tmp is not "" else str(input_tmp)
+                input_tmp = float(input_tmp) if input_tmp is not '' else str(input_tmp)
             elif ipt is 'num_min_points':
-                input_tmp = int(input_tmp) if input_tmp is not "" else str(input_tmp)
+                input_tmp = int(input_tmp) if input_tmp is not '' else str(input_tmp)
             elif ipt is 'window_type':
                 input_tmp = True if ipt == 1 else False
             else:
