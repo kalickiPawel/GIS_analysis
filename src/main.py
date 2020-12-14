@@ -3,12 +3,12 @@ from laboratories import Interpolation
 
 if __name__ == '__main__':
     ipt_data = {
-        'input': ['./data', 'wraki utm.txt'],
+        'input': ['data', 'wraki utm.txt'],
         'spacing': 0.1,
         'window_type': 1,
         'window_size': 0.2,
         'num_min_points': 2,
-        'output': ['./output', 'out.csv'],
+        'output': ['output', 'out.csv'],
         'save_format': 'csv'
     }
     print("Witaj w programie")
