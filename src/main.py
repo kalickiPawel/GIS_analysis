@@ -26,7 +26,7 @@ if __name__ == '__main__':
             elif ipt is 'num_min_points':
                 input_tmp = int(input_tmp) if input_tmp is not '' else str(input_tmp)
             elif ipt is 'window_type':
-                input_tmp = True if ipt == 1 else False
+                input_tmp = bool(input_tmp)
             else:
                 input_tmp = str(input_tmp)
             ipt_data[ipt] = input_tmp if input_tmp is not '' else ipt_data[ipt]
