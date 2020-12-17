@@ -34,6 +34,10 @@
 ### Improvements
 - [ ] Add the color map to display
 
+## Compression
+### TODOs
+
+
 ## Development
 
 1. Create virtual environment with `virtualenv .venv`.

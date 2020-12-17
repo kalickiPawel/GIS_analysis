@@ -1,5 +1,5 @@
 from laboratories import Interpolation
-
+from laboratories import Compression
 
 if __name__ == '__main__':
     ipt_data = {
@@ -44,3 +44,5 @@ if __name__ == '__main__':
     # TODO: user input -> type of method the interpolation(ma, idw, kriging)
     # TODO: user input -> if method is IDW -> set power value
     # TODO: user input -> if method is Kriging -> set method of variogram
+
+    # second = Compression()
