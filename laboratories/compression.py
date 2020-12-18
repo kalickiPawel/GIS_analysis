@@ -25,7 +25,6 @@ class Compression:
         except OSError:
             print("Could not open/read file:", self.input[1])
             sys.exit()
-        df = df.dropna(axis=1)
         df.columns = ["Long", "Lat", "depth"]
         return df
 
