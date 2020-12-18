@@ -47,5 +47,11 @@ if __name__ == '__main__':
     # TODO: user input -> if method is Kriging -> set method of variogram
 
     second = Compression(
-        input=ipt_data['output']
+        # input=ipt_data['output'],
+        input=['output', 'wraki.csv'],
+        spacing=ipt_data['spacing'],
+        block_size=10,
+        acc=0.05,
+        to_zip='N',
+        output=['output', 'wraki_comp.csv']
     )
