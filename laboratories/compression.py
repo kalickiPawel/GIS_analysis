@@ -128,6 +128,10 @@ class Compression:
     def get_paddings(self, aa):
         return self.block_size - (aa.shape[0] % self.block_size), self.block_size - (aa.shape[1] % self.block_size)
 
+    def change_acc(self):
+        # TODO: make accuracy level for comp/decomp
+        pass
+
     @staticmethod
     def plot(title, dataset, c=None):
         plt.figure()

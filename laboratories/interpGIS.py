@@ -135,6 +135,7 @@ def print_progress_bar(iteration, total=100, prefix='Here', suffix='Now', decima
     filled_length = int(length * iteration // total)
     pbar = fill * filled_length + zfill * (length - filled_length)
     print('\r%s' % ('{0} |{1}| {2}% {3}'.format(prefix, pbar, percent, suffix)), end='')
+    # TODO: number of data safe into matrix * 4 bytes
 
 
 def save_to_xyz_grid_ascii(x, y, z, output):
