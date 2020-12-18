@@ -30,15 +30,51 @@ class Compression:
         print("| --------------------------------------------------------------- |")
         print(f"Reading data from: {root}/{self.input[0]}/{self.input[1]}")
         self.df = self.load_data()
-        self.compress()
+        self.to_zip = False if self.to_zip == 'N' else True
+
+        data = self.df.to_numpy()
+
+        xx, yy, zz = self.get_meshgrids(data)
+
+        padding_h_x, padding_w_x = self.get_paddings(xx)
+        padding_h_y, padding_w_y = self.get_paddings(yy)
+        padding_h_z, padding_w_z = self.get_paddings(zz)
+
+        xx_comp = self.compress(xx, self.block_size, padding_h_x, padding_w_x, 'X compression')
+        yy_comp = self.compress(yy, self.block_size, padding_h_y, padding_w_y, 'Y compression')
+        zz_comp = self.compress(zz, self.block_size, padding_h_z, padding_w_z, 'Z compression')
+
+        xx_decomp = self.decompress(xx_comp, self.block_size, padding_h_x, padding_w_x, 'X decompression')
+        yy_decomp = self.decompress(yy_comp, self.block_size, padding_h_y, padding_w_y, 'Y decompression')
+        zz_decomp = self.decompress(zz_comp, self.block_size, padding_h_z, padding_w_z, 'Z decompression')
+
+        z_abs = abs(zz - zz_decomp)
+
+        df_kom = pd.DataFrame({'x': xx_comp.flatten(), 'y': yy_comp.flatten(), 'z': zz_comp.flatten()})
+
+        if self.to_zip:
+            df_kom.to_csv(os.path.join(*self.output, '.gz'), compression='gzip', sep=' ', header=False, index=False)
+            cr_value = Path(*self.input).stat().st_size / Path(os.path.join(*self.output, '.gz')).stat().st_size
+            print(f'Compression ratio CSV: {cr_value}')
+        else:
+            df_kom.to_csv(os.path.join(*self.output), sep=' ', header=False, index=False)
+            cr_value = Path(*self.input).stat().st_size / Path(os.path.join(*self.output)).stat().st_size
+            print(f'Compression ratio ZIP: {cr_value}')
+
+        self.plot('Original', zz)
+        self.plot('Compressed', zz_comp)
+        self.plot('Decompressed', zz_decomp)
+
+        self.plot('Errors zz', z_abs, 'magma')
+
+        plt.show()
 
     def load_data(self):
         try:
-            df = pd.read_csv(os.path.join(*self.input), sep=" ", header=None)
+            df = pd.read_csv(os.path.join(*self.input), names=["x", "y", "z"], sep='\s+')
         except OSError:
             print("Could not open/read file:", self.input[1])
             sys.exit()
-        df.columns = ["Long", "Lat", "depth"]
         return df
 
     @staticmethod
@@ -90,11 +126,12 @@ class Compression:
         y_min, y_max = np.min(y), np.max(np.round(y, 2))
         return (x_min, x_max, step), (y_min, y_max, step)
 
-# TODO:
-# TODO: user input -> size of block of data
-# TODO: user input -> decompression accuracy (abs)
-#  after decompression this parameter is limit for error
-# TODO: user input -> ZIP method yes or no
-# TODO: time of computing
-# TODO: progress bar
-# TODO: compression ratio
+    def get_paddings(self, aa):
+        return self.block_size - (aa.shape[0] % self.block_size), self.block_size - (aa.shape[1] % self.block_size)
+
+    @staticmethod
+    def plot(title, dataset, c=None):
+        plt.figure()
+        plt.title(title)
+        p = plt.imshow(dataset, cmap=c)
+        plt.colorbar(p)
