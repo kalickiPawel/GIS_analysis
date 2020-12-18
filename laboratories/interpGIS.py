@@ -123,7 +123,8 @@ class Interpolation:
             if not os.path.exists(self.output[0]):
                 os.makedirs(self.output[0])
             df = pd.DataFrame({'X': self.grid[0].flatten(), 'Y': self.grid[1].flatten(), 'Z': self.zz.flatten()})
-            df.to_csv(os.path.join(*self.output), header=False, sep=' ', na_rep='NaN', index=False)
+            df.to_csv(os.path.join(*self.output), header=False, sep=' ', na_rep='NaN', index=True)
+
         if self.save_format == 'xyz':
             save_to_xyz_grid_ascii(self.grid[0], self.grid[1], self.zz, output=self.output)
         return 0
