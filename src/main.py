@@ -45,13 +45,34 @@ if __name__ == '__main__':
     # TODO: user input -> type of method the interpolation(ma, idw, kriging)
     # TODO: user input -> if method is IDW -> set power value
     # TODO: user input -> if method is Kriging -> set method of variogram
+    comp_data = {
+        'input': ['output', 'wraki.csv'],
+        'block_size': 10,
+        'acc': 0.05,
+        'to_zip': 'N',
+        'output': ['output', 'wraki_comp.csv']
+    }
+    for ipt in comp_data:
+        if ipt is 'input' or ipt is 'output':
+            input_tmp = ['', '']
+            input_tmp[0] = input(f'Read {ipt}_path (default: {comp_data[ipt][0]}): ')
+            input_tmp[1] = input(f'Read {ipt}_file (default: {comp_data[ipt][1]}): ')
+            comp_data[ipt][0] = input_tmp[0] if input_tmp[0] != '' else comp_data[ipt][0]
+            comp_data[ipt][1] = input_tmp[1] if input_tmp[1] != '' else comp_data[ipt][1]
+        else:
+            input_tmp = input(f'Read {ipt} (default: {comp_data[ipt]}): ')
+            if ipt is 'acc':
+                input_tmp = float(input_tmp) if input_tmp is not '' else str(input_tmp)
+            elif ipt is 'block_size':
+                input_tmp = int(input_tmp) if input_tmp is not '' else str(input_tmp)
+            else:
+                input_tmp = str(input_tmp)
+            comp_data[ipt] = input_tmp if input_tmp is not '' else comp_data[ipt]
 
     second = Compression(
-        # input=ipt_data['output'],
-        input=['output', 'wraki.csv'],
-        spacing=ipt_data['spacing'],
-        block_size=10,
-        acc=0.05,
-        to_zip='N',
-        output=['output', 'wraki_comp.csv']
+        input=comp_data['input'],
+        block_size=comp_data['block_size'],
+        acc=comp_data['acc'],
+        to_zip=comp_data['to_zip'],
+        output=comp_data['output']
     )
