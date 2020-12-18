@@ -1,20 +1,23 @@
-from scipy.fftpack import dct
 import pandas as pd
 import os
 import sys
 
-from laboratories import Interpolation
+from scipy.fftpack import dct
+from src.utils import get_project_root
+
+root = get_project_root()
 
 
 class Compression:
-    def __init__(self):
-        self.input = ['./output', 'out.csv']
-        df = self.load_data()
-        df = df[df != 'NaN'].dropna()
-        a = dct(dct(df.T).T)
-        print(max(abs(df-a)))
-        # max(abs(df - a)) < 5 cm
-        print(a)
+    def __init__(self, **kwargs):
+        self.input = ("", "")
+        setattr(self, 'input', kwargs.get('input'))
+        print("| --------------------------------------------------------------- |")
+        print("| -----------------------Compression process--------------------- |")
+        print("| --------------------------------------------------------------- |")
+        print(f"Reading data from: {root}/{self.input[0]}/{self.input[1]}")
+        self.df = self.load_data()
+        self.compress()
 
     def load_data(self):
         try:
@@ -22,8 +25,12 @@ class Compression:
         except OSError:
             print("Could not open/read file:", self.input[1])
             sys.exit()
-        df.columns = ["Lat", "Long", "depth"]
+        df = df.dropna(axis=1)
+        df.columns = ["Long", "Lat", "depth"]
         return df
+
+    def compress(self):
+        pass
 
 # TODO:
 # TODO: user input -> size of block of data

@@ -45,4 +45,6 @@ if __name__ == '__main__':
     # TODO: user input -> if method is IDW -> set power value
     # TODO: user input -> if method is Kriging -> set method of variogram
 
-    # second = Compression()
+    second = Compression(
+        input=ipt_data['output']
+    )

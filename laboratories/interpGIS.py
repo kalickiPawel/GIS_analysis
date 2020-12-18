@@ -1,10 +1,11 @@
+import matplotlib.pyplot as plt
 import geopandas
 import pandas as pd
 import numpy as np
 import os
 import sys
+
 from src.utils import get_project_root
-import matplotlib.pyplot as plt
 from pyproj import CRS
 from sklearn.neighbors import KDTree
 
@@ -82,7 +83,7 @@ class Interpolation:
         ax = fig.add_subplot(1, 2, 1, projection='3d')
         ax.plot_surface(self.grid[1], self.grid[0], self.zz)
 
-        ax = fig.add_subplot(1, 2, 2)
+        fig.add_subplot(1, 2, 2)
         p = plt.imshow(self.zz, cmap='jet')
         plt.colorbar(p)
         plt.show()
