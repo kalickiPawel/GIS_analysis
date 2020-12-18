@@ -15,13 +15,12 @@ root = get_project_root()
 class Compression:
     def __init__(self, **kwargs):
         self.input = ["", ""]
-        self.spacing = 0.0
         self.block_size = 0
         self.acc = 0.0
         self.to_zip = ''
         self.output = ["", ""]
 
-        valid_keys = ["input", "spacing", "block_size", "acc", "to_zip", "output"]
+        valid_keys = ["input", "block_size", "acc", "to_zip", "output"]
         for key in valid_keys:
             setattr(self, key, kwargs.get(key))
 
