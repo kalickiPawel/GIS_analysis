@@ -16,6 +16,7 @@ root = get_project_root()
 class Interpolation:
 
     def __init__(self, **kwargs):
+        self.compress_only = None
         self.input = ("", "")
 
         self.spacing = None
@@ -31,7 +32,8 @@ class Interpolation:
         self.output = ("", "")
         self.save_format = None
 
-        valid_keys = ["input", "spacing", "window_type", "window_size", "num_min_points", "output", "save_format"]
+        valid_keys = ["input", "spacing", "window_type", "window_size", 
+                      "num_min_points", "output", "save_format", "compress_only"]
         for key in valid_keys:
             setattr(self, key, kwargs.get(key))
 
@@ -44,10 +46,11 @@ class Interpolation:
         self.df, self.gdf = self.load_data()
         self.grid = self.get_grid()
         self.data = self.df.to_numpy()
-
-        self.zz = self.interp_moving_average()
-        self.save()
-        self.plot()
+        
+        if not self.compress_only:
+            self.zz = self.interp_moving_average()
+            self.save()
+            self.plot()
 
     def load_data(self):
         try:

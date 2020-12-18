@@ -38,7 +38,8 @@ if __name__ == '__main__':
         window_size=ipt_data['window_size'],
         num_min_points=ipt_data['num_min_points'],
         output=ipt_data['output'],
-        save_format=ipt_data['save_format']
+        save_format=ipt_data['save_format'],
+        compress_only=True
     )
 
     # TODO: user input -> type of method the interpolation(ma, idw, kriging)
